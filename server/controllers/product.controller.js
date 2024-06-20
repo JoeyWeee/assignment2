@@ -1,9 +1,17 @@
-import Product from '../models/product.js'; 
+import Product from '../models/product.js';
 
 // Get all products
 export const getAllProducts = async (req, res) => {
+
+    const name = req.query.name;
     try {
-        const products = await Product.find();
+        let products;
+        if (name) {
+            const regex = new RegExp(name, 'i');
+            products = await Product.find({ name: regex });
+        } else {
+            products = await Product.find();
+        }
         res.json(products);
     } catch (err) {
         res.status(500).json({ message: err.message });
@@ -65,13 +73,3 @@ export const removeAllProducts = async (req, res) => {
     }
 };
 
-// Find all products which name
-export const findProductsByName = async (req, res) => {
-    const { name } = req.query;
-    try {
-        const products = await Product.find({ name: new RegExp(name, 'i') });
-        res.json(products);
-    } catch (err) {
-        res.status(500).json({ message: err.message });
-    }
-};

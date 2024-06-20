@@ -4,7 +4,6 @@ import cookieParser from 'cookie-parser';
 import compress from 'compression';
 import cors from 'cors';
 import helmet from 'helmet';
-import Template from './../template.js'; 
 import routes from './routes/routes.js'; 
 import { errorHandler } from './controllers/error.controller.js'; 
 
@@ -24,12 +23,8 @@ app.use('/api', routes); // Use the routes prefixed with '/api'
 // Error handling middleware
 app.use(errorHandler);
 
-app.get('/', (req, res) => {
-    res.status(200).send(Template());
-});
-
-app.get("/api", (req, res) => {
-    res.json({ message: "Welcome to User application." });
+app.get("/", (req, res) => {
+    res.json({ message: "Welcome to DressStore application." });
 });
 
 export default app;
